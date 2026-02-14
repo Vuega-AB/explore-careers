@@ -1,6 +1,6 @@
 const CTA = () => (
   <SectionWrapper>
-    <div className='custom-screen'>
+    {/* <div className='custom-screen'>
       <div className='max-w-2xl mx-auto text-center'>
         <h2
           className='text-gray-800 text-3xl font-semibold sm:text-4xl'
@@ -24,7 +24,7 @@ const CTA = () => (
           <span>Star on GitHub</span>
         </a>
       </div>
-    </div>
+    </div> */}
   </SectionWrapper>
 );
 

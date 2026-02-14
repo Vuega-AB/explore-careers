@@ -40,40 +40,51 @@ function CareerNode({ data }: NodeProps<CareerNodeProps>) {
   } = data;
   const position = connectPosition === 'top' ? Position.Top : Position.Bottom;
 
+  const diffStyles: any = {
+    low: 'bg-emerald-50 text-emerald-700 border-emerald-100',
+    medium: 'bg-amber-50 text-amber-700 border-amber-100',
+    high: 'bg-rose-50 text-rose-700 border-rose-100',
+  };
+
+  const currentDiff = difficulty?.toLowerCase() || 'medium';
+
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <div className='border border-gray-300 rounded-2xl py-4 px-7 max-w-[350px] bg-gray-50'>
-          <Handle type='target' position={position} />
-          <h1 className='text-2xl font-bold mb-2'>{jobTitle}</h1>
-          <p className='mb-4 font-light'>{jobDescription}</p>
-          <div className='flex flex-col gap-1'>
-            <div className='flex justify-between'>
-              <div className='font-light'>TIMELINE:</div>
-              <div className='font-medium text-lg'>{timeline}</div>
-            </div>
-            <div className='flex justify-between'>
-              <div className='font-light'>SALARY:</div>
-              <div className='font-medium text-lg'>{salary}</div>
-            </div>
-            <div className='flex justify-between'>
-              <div className='font-light'>DIFFICULTY:</div>
-              <div
-                className={`font-semibold ${
-                  difficulty?.toLowerCase() == 'low'
-                    ? 'text-green-600'
-                    : difficulty?.toLowerCase() == 'high'
-                    ? 'text-red-600'
-                    : 'text-orange-600'
-                } text-lg`}
-              >
+        <div className="group cursor-pointer transition-all duration-300 hover:scale-105">
+          <div className="relative p-6 rounded-[2rem] bg-white/70 backdrop-blur-xl border border-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.1)] min-w-[320px] overflow-hidden">
+            {/* Subtle Gradient Accent */}
+            <div className={`absolute top-0 left-0 w-full h-1.5 ${currentDiff === 'high' ? 'bg-rose-400' : currentDiff === 'low' ? 'bg-emerald-400' : 'bg-amber-400'}`} />
+            
+            <Handle type="target" position={position} className="!bg-gray-300 !border-none !w-2 !h-2" />
+            
+            <div className="flex justify-between items-start mb-4">
+              <h1 className="text-xl font-black text-gray-900 tracking-tight leading-tight uppercase italic">{jobTitle}</h1>
+              <span className={`text-[10px] font-bold px-2 py-1 rounded-lg border uppercase tracking-wider ${diffStyles[currentDiff]}`}>
                 {difficulty}
+              </span>
+            </div>
+
+            <p className="text-sm text-gray-500 mb-6 line-clamp-2 font-medium">
+              {jobDescription}
+            </p>
+
+            <div className="grid grid-cols-2 gap-4 pt-4 border-t border-gray-50">
+              <div>
+                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Timeline</p>
+                <p className="text-sm font-bold text-gray-800">{timeline}</p>
+              </div>
+              <div className="text-right">
+                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Salary</p>
+                <p className="text-sm font-bold text-gray-800">{salary}</p>
               </div>
             </div>
+
+            <Handle type="source" position={position === Position.Top ? Position.Bottom : Position.Top} className="!bg-gray-300 !border-none !w-2 !h-2" />
           </div>
         </div>
       </DialogTrigger>
-      <DialogContent className='sm:max-w-6xl'>
+      <DialogContent className="sm:max-w-5xl rounded-[3rem] p-10">
         <DialogHeader>
           <DialogTitle className='flex justify-between'>
             <div className='flex items-center gap-3'>
