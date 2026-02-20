@@ -1,31 +1,15 @@
 import { memo } from 'react';
 import { Handle, Position } from 'reactflow';
-import type { NodeProps } from 'reactflow';
+import { ArrowUpRight } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { Button } from './ui/button';
 
-type CareerNodeProps = {
-  jobTitle?: string;
-  jobDescription?: string;
-  timeline?: string;
-  salary?: string;
-  difficulty?: string;
-  connectPosition?: string;
-  label?: string;
-  workRequired?: string;
-  aboutTheRole?: string;
-  whyItsagoodfit?: string[];
-  roadmap?: { [key: string]: string }[];
-};
-
-function CareerNode({ data }: NodeProps<CareerNodeProps>) {
+function CareerNode({ data }: any) {
   const {
     jobTitle,
     jobDescription,
@@ -38,6 +22,7 @@ function CareerNode({ data }: NodeProps<CareerNodeProps>) {
     whyItsagoodfit,
     roadmap,
   } = data;
+
   const position = connectPosition === 'top' ? Position.Top : Position.Bottom;
 
   const diffStyles: any = {
@@ -51,114 +36,101 @@ function CareerNode({ data }: NodeProps<CareerNodeProps>) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <div className="group cursor-pointer transition-all duration-300 hover:scale-105">
-          <div className="relative p-6 rounded-[2rem] bg-white/70 backdrop-blur-xl border border-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.1)] min-w-[320px] overflow-hidden">
-            {/* Subtle Gradient Accent */}
-            <div className={`absolute top-0 left-0 w-full h-1.5 ${currentDiff === 'high' ? 'bg-rose-400' : currentDiff === 'low' ? 'bg-emerald-400' : 'bg-amber-400'}`} />
-            
-            <Handle type="target" position={position} className="!bg-gray-300 !border-none !w-2 !h-2" />
-            
-            <div className="flex justify-between items-start mb-4">
-              <h1 className="text-xl font-black text-gray-900 tracking-tight leading-tight uppercase italic">{jobTitle}</h1>
-              <span className={`text-[10px] font-bold px-2 py-1 rounded-lg border uppercase tracking-wider ${diffStyles[currentDiff]}`}>
-                {difficulty}
-              </span>
+        {/* FIXED SIZE CARD: 400px by 190px */}
+        <div className="relative w-[400px] h-[190px] p-6 rounded-[2.5rem] bg-white border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.1)] transition-all cursor-pointer overflow-hidden flex flex-col justify-between group">
+          <div className={`absolute top-0 left-0 w-full h-1.5 ${currentDiff === 'high' ? 'bg-rose-400' : currentDiff === 'low' ? 'bg-emerald-400' : 'bg-amber-400'}`} />
+          <Handle type="target" position={position} className="!bg-blue-400 !border-none !w-2 !h-2" />
+          <div className="flex justify-between items-start mb-2">
+            <span className={`text-[9px] font-black px-2 py-0.5 rounded-lg border uppercase tracking-widest ${diffStyles[currentDiff]}`}>{difficulty}</span>
+            <div className="p-1.5 rounded-full bg-black text-white group-hover:bg-blue-600 transition-colors">
+              <ArrowUpRight size={14} />
             </div>
-
-            <p className="text-sm text-gray-500 mb-6 line-clamp-2 font-medium">
-              {jobDescription}
-            </p>
-
-            <div className="grid grid-cols-2 gap-4 pt-4 border-t border-gray-50">
-              <div>
-                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Timeline</p>
-                <p className="text-sm font-bold text-gray-800">{timeline}</p>
-              </div>
-              <div className="text-right">
-                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Salary</p>
-                <p className="text-sm font-bold text-gray-800">{salary}</p>
-              </div>
-            </div>
-
-            <Handle type="source" position={position === Position.Top ? Position.Bottom : Position.Top} className="!bg-gray-300 !border-none !w-2 !h-2" />
           </div>
+          <h1 className="text-xl font-black text-gray-900 tracking-tighter leading-[0.9] uppercase italic mb-2">{jobTitle}</h1>
+          <p className="text-[10px] text-gray-400 font-medium leading-tight line-clamp-2 italic mb-4">{jobDescription}</p>
+          <div className="flex justify-between items-end pt-3 border-t border-gray-50 mt-auto">
+            <div><p className="text-[8px] font-bold text-gray-300 uppercase tracking-widest">Timeline</p><p className="text-[11px] font-black text-gray-800 italic uppercase leading-none">{timeline}</p></div>
+            <div className="text-right"><p className="text-[8px] font-bold text-gray-300 uppercase tracking-widest">Est. Salary</p><p className="text-[11px] font-black text-blue-600 italic uppercase leading-none">{salary}</p></div>
+          </div>
+          <Handle type="source" position={position === Position.Top ? Position.Bottom : Position.Top} className="!bg-blue-400 !border-none !w-2 !h-2" />
         </div>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-5xl rounded-[3rem] p-10">
-        <DialogHeader>
-          <DialogTitle className='flex justify-between'>
-            <div className='flex items-center gap-3'>
-              <span className='text-2xl'>{jobTitle ?? 'SEO Specialist'}</span>
-              <span className='border rounded-3xl border-gray-200 px-3 py-1 text-sm'>
-                {timeline}
-              </span>
-              <span className='border rounded-3xl border-gray-200 px-3 py-1 text-sm'>
-                {salary}
-              </span>
-              <span
-                className={`border rounded-3xl border-gray-200 px-3 py-1 text-sm font-semibold ${
-                  difficulty?.toLowerCase() == 'low'
-                    ? 'text-green-600'
-                    : difficulty?.toLowerCase() == 'high'
-                    ? 'text-red-600'
-                    : 'text-orange-600'
-                } text-lg`}
-              >
-                {difficulty}
-              </span>
+
+      {/* --- RE-STYLED DIALOG CONTENT --- */}
+      <DialogContent className="sm:max-w-[1100px] w-11/12 h-[90vh] rounded-[3.5rem] p-0 overflow-hidden border-none shadow-2xl bg-[#F8F9FA] flex flex-col">
+        
+        {/* FIXED HEADER: Separates Title from Commitment clearly */}
+        <div className="p-12 pb-8 bg-white border-b border-gray-100 shrink-0">
+          <div className="grid grid-cols-12 gap-6 items-start">
+            <div className="col-span-8 space-y-4">
+              <h1 className="text-5xl font-black italic uppercase tracking-tighter leading-none text-gray-900 break-words">
+                {jobTitle}
+              </h1>
+              <div className="flex gap-2">
+                <span className="bg-gray-100 border border-gray-200 rounded-full px-3 py-1 text-[10px] font-bold text-gray-500 uppercase tracking-widest">{timeline}</span>
+                <span className="bg-blue-50 text-blue-600 border border-blue-100 rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-widest">{salary}</span>
+                <span className={`${diffStyles[currentDiff]} border rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-widest`}>{difficulty}</span>
+              </div>
             </div>
-            <div className='flex items-center gap-3 mr-5'>
-              <div className='font-bold'>Work Required:</div>
-              <span className='border rounded-3xl border-gray-200 px-3 py-1 text-sm'>
-                {workRequired ?? '10-20 hrs/week'}
-              </span>
-            </div>
-          </DialogTitle>
-        </DialogHeader>
-        <div className='flex gap-7 border-t border-black pt-6'>
-          <div className='flex flex-col gap-4 w-2/5'>
-            <div>
-              <h2 className='text-lg font-semibold mb-2'>
-                What's a {jobTitle}?
+            <div className="col-span-4 text-right">
+              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400 mb-1 leading-none">Weekly Commitment</p>
+              <h2 className="text-xl font-black italic text-gray-800 leading-tight">
+                {workRequired || "High Demand & Scaling"}
               </h2>
-              <p>
-                {aboutTheRole ??
-                  `SEO Specialists optimize websites to rank higher in search
-                engine results, aiming to increase online visibility, drive
-                organic traffic, and improve user engagement. They conduct
-                keyword research, analyze competitors, and implement SEO
-                strategies that include on-page optimization, link building, and
-                content creation.`}
-              </p>
-            </div>
-            <div>
-              <h2 className='text-lg font-semibold mb-2 mt-6'>
-                Why it's a good fit
-              </h2>
-              <ul className='list-disc ml-4'>
-                {whyItsagoodfit?.map((reason, index) => (
-                  <li key={index}>{reason}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
-          <div className='w-3/5'>
-            <h2 className='text-lg font-semibold mb-2'>Roadmap</h2>
-            <div className='flex flex-col gap-2'>
-              {roadmap?.map((step, index) => (
-                <div key={index} className='flex gap-3'>
-                  <div className='font-light min-w-28'>
-                    {Object.keys(step)[0]}:
-                  </div>
-                  <div>{Object.values(step)[0]}</div>
-                </div>
-              ))}
             </div>
           </div>
         </div>
-        <DialogFooter>
-          <Button type='submit'>Save changes</Button>
-        </DialogFooter>
+
+        {/* SCROLLABLE BODY */}
+        <div className="flex-1 overflow-y-auto p-12 pt-8 custom-scrollbar">
+          <div className="grid grid-cols-12 gap-10">
+            {/* Left Column: Role Info */}
+            <div className="col-span-4 space-y-10">
+              <div className="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm">
+                <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-600 mb-4 font-bold">Role Overview</h2>
+                <p className="text-gray-600 text-sm leading-relaxed font-medium italic">
+                  {aboutTheRole || jobDescription}
+                </p>
+              </div>
+
+              <div className="px-4">
+                <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400 mb-6 font-bold">Why it fits you</h2>
+                <ul className="space-y-4">
+                  {(whyItsagoodfit || ["High market demand", "Utilizes your current skills", "Long-term stability"])?.map((reason, index) => (
+                    <li key={index} className="flex items-start gap-3 text-sm font-bold text-gray-700 italic">
+                      <span className="text-blue-500 mt-0.5">→</span>
+                      <span>{reason}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            {/* Right Column: Roadmap */}
+            <div className="col-span-8 bg-white rounded-[3rem] p-10 border border-gray-100 shadow-sm">
+              <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400 mb-10 flex items-center gap-4">
+                Execution Roadmap <div className="h-px flex-grow bg-gray-100" />
+              </h2>
+              
+              <div className="space-y-10">
+                {roadmap?.map((step: any, index: number) => {
+                  const weekRange = Object.keys(step)[0];
+                  const task = Object.values(step)[0] as string;
+                  return (
+                    <div key={index} className="flex gap-8 group">
+                      <div className="min-w-[140px] text-blue-600 font-black italic uppercase text-sm tracking-tighter pt-0.5 transition-transform group-hover:translate-x-1">
+                        {weekRange}
+                      </div>
+                      <div className="text-gray-600 text-[15px] leading-relaxed font-medium border-l-2 border-gray-100 pl-8 pb-1">
+                        {task}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
       </DialogContent>
     </Dialog>
   );
