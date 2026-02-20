@@ -96,7 +96,7 @@ function CareerNode({ data }: any) {
               <div className="px-4">
                 <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400 mb-6 font-bold">Why it fits you</h2>
                 <ul className="space-y-4">
-                  {(whyItsagoodfit || ["High market demand", "Utilizes your current skills", "Long-term stability"])?.map((reason, index) => (
+                  {(whyItsagoodfit || ["High market demand", "Utilizes your current skills", "Long-term stability"])?.map((reason: string, index: number) => (
                     <li key={index} className="flex items-start gap-3 text-sm font-bold text-gray-700 italic">
                       <span className="text-blue-500 mt-0.5">→</span>
                       <span>{reason}</span>
