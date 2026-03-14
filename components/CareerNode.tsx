@@ -114,15 +114,18 @@ function CareerNode({ data }: any) {
               
               <div className="space-y-10">
                 {roadmap?.map((step: any, index: number) => {
-                  const weekRange = Object.keys(step)[0];
-                  const task = Object.values(step)[0] as string;
+                  const timeframe = step.stepTitle || (typeof step === 'object' ? Object.keys(step)[0] : `Step ${index + 1}`);
+                  const instruction = step.stepDetails || (typeof step === 'object' ? Object.values(step)[0] : String(step));
                   return (
                     <div key={index} className="flex gap-8 group">
+                      {/* Left Side: Timeframe (e.g., Week 1-4) */}
                       <div className="min-w-[140px] text-blue-600 font-black italic uppercase text-sm tracking-tighter pt-0.5 transition-transform group-hover:translate-x-1">
-                        {weekRange}
+                        {timeframe}
                       </div>
+                      
+                      {/* Right Side: The actual task instruction */}
                       <div className="text-gray-600 text-[15px] leading-relaxed font-medium border-l-2 border-gray-100 pl-8 pb-1">
-                        {task}
+                        {instruction as string}
                       </div>
                     </div>
                   );

@@ -43,7 +43,7 @@ const Header = () => {
             <Link href='/' className='flex items-center gap-3'>
               {/* <Image src='/box.svg' alt='logo' width={30} height={30} />
               <div className='font-bold text-lg'>ExploreCareers</div> */}
-              <Image src='/logo.svg' alt='logo' width={230} height={100} />
+              {/* <Image src='/logo.svg' alt='logo' width={230} height={100} /> */}
             </Link>
             <div className='md:hidden'>
               <button

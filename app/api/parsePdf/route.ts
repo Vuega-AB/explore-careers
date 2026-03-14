@@ -4,10 +4,12 @@ import pdfParse from 'pdf-parse';
 
 interface PDFParseRequest {
   resumeUrl: string;
+  theme?: string;
 }
 
 export async function POST(request: NextRequest) {
-  const { resumeUrl } = (await request.json()) as PDFParseRequest;
+  const { resumeUrl, theme } = (await request.json()) as PDFParseRequest;
+  console.log(`[Parser] Processing resume for user in ${theme} mode`);
 
   const response = await fetch(resumeUrl);
   const arrayBuffer = await response.arrayBuffer();

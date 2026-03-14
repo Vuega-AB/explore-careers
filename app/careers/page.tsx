@@ -3,8 +3,6 @@
 import toast, { Toaster } from 'react-hot-toast';
 import CareerNode from '@/components/CareerNode';
 import { uploaderOptions } from '@/lib/utils';
-import { UrlBuilder } from '@bytescale/sdk';
-import { UploadDropzone } from '@bytescale/upload-widget-react';
 import { useCallback, useEffect, useState } from 'react';
 import { motion } from 'framer-motion'; // Added this
 import ReactFlow, {
@@ -13,6 +11,7 @@ import ReactFlow, {
   useEdgesState,
   useNodesState,
 } from 'reactflow';
+import ResumeUpload from '@/components/ResumeUpload';
 import 'reactflow/dist/style.css';
 import type { Node, NodeTypes } from 'reactflow';
 import { Textarea } from '@/components/ui/textarea';
@@ -273,19 +272,11 @@ export default function Start() {
                 </div>
 
                 <div className='bg-white/70 backdrop-blur-2xl border border-white shadow-[0_30px_60px_rgba(0,0,0,0.06)] rounded-[3rem] p-4 sm:p-10 space-y-8'>
-                    <div className="overflow-hidden rounded-[2rem] border-2 border-dashed border-gray-100 hover:border-blue-200 transition-all duration-500 bg-gray-50/30">
-                        <UploadDropzone
-                            options={uploaderOptions}
-                            onUpdate={({ uploadedFiles }) => {
-                                if (uploadedFiles.length !== 0) {
-                                    const file = uploadedFiles[0];
-                                    setUrl(UrlBuilder.url({ accountId: file.accountId, filePath: file.filePath }));
-                                    setName(file.originalFile.file.name);
-                                }
-                            }}
-                            width='100%'
-                            height='280px'
-                        />
+                    <div className="space-y-4">
+                        <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-500 text-center">
+                            01. Source Input
+                        </h2>
+                        <ResumeUpload onUploadComplete={(url: string) => setUrl(url)} />
                     </div>
 
                     <div className="space-y-3">
