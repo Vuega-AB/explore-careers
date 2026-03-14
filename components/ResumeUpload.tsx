@@ -1,15 +1,19 @@
 "use client";
-import { UploadButton } from "@uploadthing/react";
-import { OurFileRouter } from "@/app/api/uploadthing/core";
+
+import { generateUploadButton } from "@uploadthing/react";
+import type { OurFileRouter } from "@/app/api/uploadthing/core";
 import { Plus, FileCheck } from "lucide-react";
 import { useState } from "react";
+
+// This creates a typed version of the button that fixes the build error
+const TypedUploadButton = generateUploadButton<OurFileRouter>();
 
 export default function ResumeUpload({ onUploadComplete }: any) {
   const [isFinished, setIsFinished] = useState(false);
 
   return (
     <div className="flex flex-col items-center">
-      <UploadButton<OurFileRouter>
+      <TypedUploadButton
         endpoint="resumeUploader"
         onClientUploadComplete={(res) => {
           if (res) {
